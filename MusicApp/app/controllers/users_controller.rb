@@ -6,7 +6,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.find_by_credentials(params[:user][:email], params[:user][:password])
+    @user = User.new(user_params)
+
 
     if @user.save
       login(@user)
@@ -20,6 +21,10 @@ class UsersController < ApplicationController
   def show
     @user = current_user
     render :show
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password)
   end
 
 end
